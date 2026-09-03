@@ -1,1 +1,7 @@
-onlyBuiltDependencies: '["@firebase/util","esbuild","protobufjs","unrs-resolver"]'
+packages:
+  - "."
+onlyBuiltDependencies:
+  - "@firebase/util"
+  - "esbuild"
+  - "protobufjs"
+  - "unrs-resolver"
