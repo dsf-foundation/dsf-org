@@ -102,6 +102,7 @@ export default function GetInvolvedPage() {
       <section className="container-site section-pad">
         <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
           <div>
+            <p className="kicker-dot mb-4">Ways to help</p>
             <h2 className="display-md text-3xl text-ink">
               Six ways to make a difference
             </h2>
@@ -138,7 +139,7 @@ export default function GetInvolvedPage() {
                   <div className="mt-6">
                     <Button
                       href={w.cta.href}
-                      variant="ghost"
+                      // variant="ghost"
                       size="sm"
                       className="w-full"
                     >
@@ -165,6 +166,7 @@ export default function GetInvolvedPage() {
       <section className="bg-warm">
         <div className="container-site section-pad">
           <Reveal className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <p className="kicker-dot mb-4 justify-center">Not sure where to start?</p>
             <h2 className="display-md text-3xl text-ink">
               We&apos;ll help you find the right fit.
             </h2>
@@ -185,6 +187,7 @@ export default function GetInvolvedPage() {
       <section className="container-site section-pad">
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5">
+            <p className="kicker-dot mb-4">Contact us</p>
             <h2 className="display-lg text-3xl text-ink">
               Tell us how you&apos;d like to help.
             </h2>

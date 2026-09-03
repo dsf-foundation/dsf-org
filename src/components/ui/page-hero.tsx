@@ -23,14 +23,18 @@ export function PageHero({
 
   return (
     <section className="relative flex items-center min-h-[55vh] overflow-hidden bg-ink">
-      <Image
-        src={image}
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover opacity-80"
-      />
+      {image ? (
+        <Image
+          src={image}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-80"
+        />
+      ) : (
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-primary-dark to-ink" />
+      )}
       <div aria-hidden className="absolute inset-0 hero-overlay" />
       <div className="container-site relative z-10 py-24 md:py-32">
         <div className="max-w-3xl">

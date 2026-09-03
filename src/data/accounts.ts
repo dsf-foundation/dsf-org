@@ -35,7 +35,7 @@ export const donationAccounts: DonationAccount[] = [
     id: "bkash",
     kind: "mobile",
     label: "bKash",
-    number: "01897-655740",
+    number: "01805-456 998",
     logo: "/images/bkash.png",
     note: "Domestic (Bangladesh) only",
     mobile: {
@@ -46,7 +46,7 @@ export const donationAccounts: DonationAccount[] = [
     id: "nagad",
     kind: "mobile",
     label: "Nagad",
-    number: "01897-655740",
+    number: "01805-456 998",
     logo: "/images/ngada.png",
     note: "Domestic (Bangladesh) only",
     mobile: {
@@ -57,7 +57,7 @@ export const donationAccounts: DonationAccount[] = [
     id: "rocket",
     kind: "mobile",
     label: "Rocket",
-    number: "018976557401",
+    number: "01805-456 998",
     logo: "/images/rocket.webp",
     note: "Domestic (Bangladesh) only",
     mobile: {

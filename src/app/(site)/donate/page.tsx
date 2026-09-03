@@ -78,6 +78,7 @@ export default function DonatePage() {
       <section className="border-b border-line bg-warm">
         <div className="container-site py-14 md:py-16">
           <Reveal className="mb-10 max-w-2xl">
+            <p className="kicker-dot mb-4">How it works</p>
             <h2 className="display-md text-3xl text-ink">
               Three simple steps to a verified receipt
             </h2>
@@ -99,6 +100,7 @@ export default function DonatePage() {
       {/* Donation accounts */}
       <section className="container-site section-pad">
         <Reveal className="mb-10 max-w-2xl">
+          <p className="kicker-dot mb-4">Donation accounts</p>
           <h2 className="display-md text-3xl text-ink">
             Where to send your donation
           </h2>
@@ -260,6 +262,7 @@ export default function DonatePage() {
         <div className="container-site section-pad">
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal>
+              <p className="kicker-dot mb-4">Get your receipt</p>
               <h2 className="display-md text-3xl text-ink">
                 Request your verified receipt
               </h2>

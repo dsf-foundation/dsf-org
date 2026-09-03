@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { IoHeartOutline } from "react-icons/io5";
 import { CloseIcon, MenuIcon, ArrowRightIcon } from "@/components/icons/ui";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/logo";
@@ -70,9 +71,10 @@ export function Navbar() {
           <Button
             href="/donate"
             size="sm"
-            variant="accent"
-            className="hidden md:inline-flex"
+            variant="primary"
+            className="hidden md:inline-flex gap-2"
           >
+            <IoHeartOutline className="h-4 w-4" />
             {donateLabel}
           </Button>
           <button

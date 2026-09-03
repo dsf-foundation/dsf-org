@@ -29,7 +29,6 @@ export default async function Page() {
                 href={`/activities/${a.slug}`}
                 image={a.image}
                 alt={a.title}
-                kicker={a.tag}
                 title={a.title}
                 excerpt={a.short}
                 ctaLabel="Explore program"

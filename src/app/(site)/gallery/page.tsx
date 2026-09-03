@@ -94,7 +94,7 @@ export default function Page() {
                   <button
                     type="button"
                     onClick={() => setAlbum("all")}
-                    className={`whitespace-nowrap rounded-md px-3 py-2 text-left text-sm font-medium transition lg:flex lg:items-center lg:gap-2 ${
+                    className={` rounded-md  px-3 py-2 text-left text-sm font-medium transition lg:flex lg:items-center lg:gap-2 ${
                       album === "all"
                         ? "bg-primary text-white"
                         : "bg-surface text-body hover:text-primary"
@@ -108,7 +108,7 @@ export default function Page() {
                       key={a.slug}
                       type="button"
                       onClick={() => setAlbum(a.slug)}
-                      className={`whitespace-nowrap rounded-md px-3 py-2 text-left text-sm font-medium transition lg:flex lg:items-center lg:gap-2 ${
+                      className={`line-climb- rounded-md px-3 py-2 text-left text-sm font-medium transition lg:flex lg:items-center lg:gap-2 ${
                         album === a.slug
                           ? "bg-primary text-white"
                           : "bg-surface text-body hover:text-primary"

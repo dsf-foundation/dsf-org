@@ -8,8 +8,6 @@ import {
   getDocs,
   setDoc,
   deleteDoc,
-  orderBy,
-  query,
 } from "firebase/firestore";
 import { toast } from "sonner";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
@@ -18,31 +16,38 @@ import type { RichBlock } from "@/lib/firestore";
 
 type BlogPost = {
   slug: string;
-  image: string;
+  thumbnail: string;
   title: string;
-  excerpt: string;
-  date: string;
-  dateISO: string;
+  summary: string;
   category: string;
-  author: string;
-  readTime: string;
-  intro: string;
   blocks: RichBlock[];
 };
 
 const emptyBlog: BlogPost = {
   slug: "",
-  image: "",
+  thumbnail: "",
   title: "",
-  excerpt: "",
-  date: "",
-  dateISO: "",
+  summary: "",
   category: "",
-  author: "",
-  readTime: "5 min read",
-  intro: "",
   blocks: [],
 };
+
+function sanitize(value: unknown): unknown {
+  if (value === undefined || value === null) return undefined;
+  if (Array.isArray(value)) {
+    const arr = value.map(sanitize).filter((v) => v !== undefined);
+    return arr;
+  }
+  if (typeof value === "object") {
+    const obj: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      const clean = sanitize(v);
+      if (clean !== undefined) obj[k] = clean;
+    }
+    return obj;
+  }
+  return value;
+}
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -55,8 +60,7 @@ export default function BlogsPage() {
   useEffect(() => {
     async function load() {
       try {
-        const q = query(collection(db, "blogs"), orderBy("dateISO", "desc"));
-        const snap = await getDocs(q);
+        const snap = await getDocs(collection(db, "blogs"));
         setBlogs(snap.docs.map((d) => d.data() as BlogPost));
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load blogs");
@@ -77,12 +81,6 @@ export default function BlogsPage() {
     setIsNew(false);
   }
 
-  function formatDate(iso: string): string {
-    if (!iso) return "";
-    const d = new Date(iso);
-    return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-  }
-
   async function save() {
     if (!editing) return;
     if (!editing.slug || !editing.title) {
@@ -95,22 +93,22 @@ export default function BlogsPage() {
       const post: BlogPost = {
         ...editing,
         slug: editing.slug.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-        dateISO: editing.dateISO || new Date().toISOString().split("T")[0],
-        date: formatDate(editing.dateISO || new Date().toISOString().split("T")[0]),
         createdAt: (editing as unknown as Record<string, string>).createdAt || now,
         updatedAt: now,
       } as BlogPost;
-      await setDoc(doc(db, "blogs", post.slug), post);
+      const clean = sanitize(post) as BlogPost;
+      await setDoc(doc(db, "blogs", clean.slug), clean);
       if (isNew) {
-        setBlogs((prev) => [post, ...prev]);
+        setBlogs((prev) => [clean, ...prev]);
       } else {
-        setBlogs((prev) => prev.map((b) => (b.slug === post.slug ? post : b)));
+        setBlogs((prev) => prev.map((b) => (b.slug === clean.slug ? clean : b)));
       }
       setEditing(null);
       setIsNew(false);
       toast.success("Blog post saved");
-    } catch {
-      toast.error("Failed to save blog post");
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : "";
+      toast.error(detail ? `Failed to save blog post: ${detail}` : "Failed to save blog post");
     } finally {
       setSaving(false);
     }
@@ -175,22 +173,32 @@ export default function BlogsPage() {
             <Field label="Slug" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v })} placeholder="my-blog-post" disabled={!isNew} />
             <Field label="Title" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="Blog post title" />
           </div>
-          <Field label="Category" value={editing.category} onChange={(v) => setEditing({ ...editing, category: v })} placeholder="e.g. Emergency Relief" />
-          <Field label="Excerpt" value={editing.excerpt} onChange={(v) => setEditing({ ...editing, excerpt: v })} placeholder="Brief summary" multiline />
-          <Field label="Intro" value={editing.intro} onChange={(v) => setEditing({ ...editing, intro: v })} placeholder="Opening paragraph" multiline />
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Field label="Author" value={editing.author} onChange={(v) => setEditing({ ...editing, author: v })} placeholder="Programme Team" />
-            <Field label="Read Time" value={editing.readTime} onChange={(v) => setEditing({ ...editing, readTime: v })} placeholder="5 min read" />
-            <Field label="Date (YYYY-MM-DD)" value={editing.dateISO} onChange={(v) => setEditing({ ...editing, dateISO: v })} placeholder="2026-01-15" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Category" value={editing.category} onChange={(v) => setEditing({ ...editing, category: v })} placeholder="e.g. Emergency Relief" />
+            <Field label="Summary" value={editing.summary} onChange={(v) => setEditing({ ...editing, summary: v })} placeholder="Short summary shown on the blog card" multiline />
           </div>
-          <Field label="Image" value={editing.image} onChange={(v) => setEditing({ ...editing, image: v })} placeholder="/images/... or Cloudinary URL" />
-          <CloudinaryImageUpload onUploaded={(url) => setEditing({ ...editing, image: url })} />
-          {editing.image && (
-            <div className="relative aspect-[16/9] w-full max-w-lg overflow-hidden border border-gray-200">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={editing.image} alt="" className="h-full w-full object-cover" />
-            </div>
-          )}
+          <div>
+            <label className="mb-2 block text-xs font-semibold text-gray-600">
+              Thumbnail
+            </label>
+            <CloudinaryImageUpload
+              onUploaded={(url) => setEditing({ ...editing, thumbnail: url })}
+              label="Upload thumbnail"
+            />
+            {editing.thumbnail && (
+              <div className="relative aspect-[16/9] w-full max-w-lg overflow-hidden border border-gray-200">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={editing.thumbnail} alt="" className="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setEditing({ ...editing, thumbnail: "" })}
+                  className="absolute right-2 top-2 bg-red-500 px-2.5 py-1 text-xs font-semibold text-white hover:bg-red-600"
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+          </div>
           <div>
             <label className="mb-2 block text-xs font-semibold text-gray-600">
               Content (Rich Text)
@@ -232,10 +240,10 @@ export default function BlogsPage() {
             key={blog.slug}
             className="flex items-center gap-4 border border-gray-200 bg-white p-4"
           >
-            {blog.image && (
+            {blog.thumbnail && (
               <div className="h-16 w-28 shrink-0 overflow-hidden bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={blog.image} alt="" className="h-full w-full object-cover" />
+                <img src={blog.thumbnail} alt="" className="h-full w-full object-cover" />
               </div>
             )}
             <div className="min-w-0 flex-1">
@@ -243,7 +251,7 @@ export default function BlogsPage() {
                 {blog.title || "(untitled)"}
               </p>
               <p className="text-xs text-gray-500 mt-0.5">
-                {blog.category && `${blog.category} · `}{blog.dateISO} · {blog.readTime}
+                {blog.category && `${blog.category}`}
               </p>
             </div>
             <div className="flex gap-2">

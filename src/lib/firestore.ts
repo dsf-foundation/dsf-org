@@ -15,15 +15,10 @@ export type RichBlock =
 
 export type BlogPost = {
   slug: string;
-  image: string;
+  thumbnail: string;
   title: string;
-  excerpt: string;
-  date: string;
-  dateISO: string;
+  summary: string;
   category: string;
-  author: string;
-  readTime: string;
-  intro: string;
   blocks: RichBlock[];
 };
 
@@ -34,28 +29,35 @@ export type PageHero = {
   image: string;
 };
 
+export type HomeSlide = {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  cta: string;
+  href: string;
+  image: string;
+};
+
+export type HomeGalleryPhoto = {
+  src: string;
+  caption: string;
+};
+
+export type HomeGallery = {
+  photos: HomeGalleryPhoto[];
+};
+
 export type GalleryPhoto = {
   src: string;
   caption: string;
 };
 
-export type GalleryAlbum = {
-  id: string;
-  label: string;
-  photos: GalleryPhoto[];
-};
-
 export type DbBlogPost = {
   slug: string;
-  image: string;
+  thumbnail: string;
   title: string;
-  excerpt: string;
-  date: string;
-  dateISO: string;
+  summary: string;
   category: string;
-  author: string;
-  readTime: string;
-  intro: string;
   blocks: RichBlock[];
   createdAt: string;
   updatedAt: string;
@@ -77,4 +79,13 @@ export type GalleryBatch = {
   photos: { src: string; caption: string }[];
   createdAt: string;
   updatedAt: string;
+};
+
+export type MarqueeItem = {
+  src: string;
+  name?: string;
+};
+
+export type MarqueeList = {
+  items: MarqueeItem[];
 };

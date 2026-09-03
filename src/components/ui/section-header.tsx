@@ -5,6 +5,7 @@ export function SectionHeader({
   subtitle,
   align = "left",
   action,
+  kicker,
 }: {
   kicker?: string;
   title: string;
@@ -23,6 +24,13 @@ export function SectionHeader({
         }`}
       >
         <div className={centered ? "max-w-2xl" : ""}>
+          {kicker && (
+            <p
+              className={`kicker-dot mb-4 ${centered ? "justify-center" : ""}`}
+            >
+              {kicker}
+            </p>
+          )}
           <h2 className="display-md text-3xl text-ink">{title}</h2>
           {subtitle && (
             <p

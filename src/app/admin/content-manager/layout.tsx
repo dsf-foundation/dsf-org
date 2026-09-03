@@ -10,6 +10,9 @@ import {
   IoNewspaperOutline,
   IoMenuOutline,
   IoCloseOutline,
+  IoHomeOutline,
+  IoRibbonOutline,
+  IoPeopleOutline,
 } from "react-icons/io5";
 import { auth } from "@/lib/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -19,6 +22,9 @@ const nav = [
   { label: "Page Banners", href: "/admin/content-manager/banners", icon: IoImageOutline },
   { label: "Blog Posts", href: "/admin/content-manager/blogs", icon: IoDocumentTextOutline },
   { label: "Gallery", href: "/admin/content-manager/gallery", icon: IoNewspaperOutline },
+  { label: "Home Gallery", href: "/admin/content-manager/home-gallery", icon: IoHomeOutline },
+  { label: "Certificates", href: "/admin/content-manager/certificates", icon: IoRibbonOutline },
+  { label: "Partners", href: "/admin/content-manager/partners", icon: IoPeopleOutline },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

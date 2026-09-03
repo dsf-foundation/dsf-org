@@ -17,21 +17,27 @@ export function richBlocksToTipTap(blocks: RichBlock[]): TipTapDoc {
   return { type: "doc", content };
 }
 
+function textNode(text: string): TipTapBlock | null {
+  return text ? { type: "text", text } : null;
+}
+
 function blockToTipTap(block: RichBlock): TipTapBlock {
   switch (block.type) {
-    case "paragraph":
-      return { type: "paragraph", content: [{ type: "text", text: block.text }] };
+    case "paragraph": {
+      const tn = textNode(block.text);
+      return { type: "paragraph", ...(tn ? { content: [tn] } : {}) };
+    }
     case "heading":
       return {
         type: "heading",
         attrs: { level: 2 },
-        content: [{ type: "text", text: block.text }],
+        content: [textNode(block.text)].filter(Boolean) as TipTapBlock[],
       };
     case "subheading":
       return {
         type: "heading",
         attrs: { level: 3 },
-        content: [{ type: "text", text: block.text }],
+        content: [textNode(block.text)].filter(Boolean) as TipTapBlock[],
       };
     case "list":
       return {
@@ -41,16 +47,25 @@ function blockToTipTap(block: RichBlock): TipTapBlock {
             type: "listItem",
             content: block.items.map((item) => ({
               type: "paragraph",
-              content: [{ type: "text", text: item }],
+              ...(item
+                ? { content: [textNode(item) as TipTapBlock] }
+                : {}),
             })),
           },
         ],
       };
-    case "quote":
+    case "quote": {
+      const tn = textNode(block.text);
       return {
         type: "blockquote",
-        content: [{ type: "paragraph", content: [{ type: "text", text: block.text }] }],
+        content: [
+          {
+            type: "paragraph",
+            ...(tn ? { content: [tn] } : {}),
+          },
+        ],
       };
+    }
     case "image":
       return {
         type: "image",
@@ -61,14 +76,21 @@ function blockToTipTap(block: RichBlock): TipTapBlock {
           credit: block.credit || "",
         },
       };
-    case "callout":
+    case "callout": {
+      const tn = textNode(block.text);
       return {
         type: "callout",
-        attrs: { title: block.title || "", text: block.text },
-        content: [{ type: "paragraph", content: [{ type: "text", text: block.text }] }],
+        attrs: { title: block.title || "", text: block.text || "" },
+        content: [
+          {
+            type: "paragraph",
+            ...(tn ? { content: [tn] } : {}),
+          },
+        ],
       };
+    }
     default:
-      return { type: "paragraph", content: [{ type: "text", text: "" }] };
+      return { type: "paragraph" };
   }
 }
 
@@ -107,19 +129,26 @@ function tipTapBlockToRichBlock(block: TipTapBlock): RichBlock | null {
       return { type: "quote", text };
     }
     case "image": {
+      const src = (block.attrs?.src as string) || "";
+      const alt = (block.attrs?.alt as string) || "";
+      const caption = (block.attrs?.caption as string) || "";
+      const credit = (block.attrs?.credit as string) || "";
       return {
         type: "image",
-        src: (block.attrs?.src as string) || "",
-        alt: (block.attrs?.alt as string) || "",
-        caption: (block.attrs?.caption as string) || undefined,
-        credit: (block.attrs?.credit as string) || undefined,
+        src,
+        alt,
+        ...(caption ? { caption } : {}),
+        ...(credit ? { credit } : {}),
       };
     }
     case "callout": {
+      const para = block.content?.[0] as TipTapBlock | undefined;
+      const text = para ? getTextContent(para) : (block.attrs?.text as string) || "";
+      const title = (block.attrs?.title as string) || "";
       return {
         type: "callout",
-        title: (block.attrs?.title as string) || undefined,
-        text: (block.attrs?.text as string) || "",
+        ...(title ? { title } : {}),
+        text,
       };
     }
     default:

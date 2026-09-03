@@ -1,9 +1,7 @@
 import Image from "next/image";
-import { IoArrowForward } from "react-icons/io5";
 import { PageHero } from "@/components/ui/page-hero";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeader } from "@/components/ui/section-header";
-import { Button } from "@/components/ui/button";
 import {
   EducationIcon,
   ServiceIcon,
@@ -13,7 +11,8 @@ import {
 import { activityCount } from "@/data/activities";
 import { fundCount } from "@/data/funds";
 import { img } from "@/data/images";
-import { getHeroForPage } from "@/lib/content";
+import { getHeroForPage, getSiteCertificates } from "@/lib/content";
+import { Marquee } from "@/components/ui/marquee";
 
 export const revalidate = 300;
 const values = [
@@ -74,6 +73,7 @@ const incomeSources = [
 
 export default async function Page() {
   const hero = await getHeroForPage("about");
+  const certificates = await getSiteCertificates();
   const stats = [
     { value: String(activityCount), label: "Program areas" },
     { value: String(fundCount), label: "Donation funds" },
@@ -89,41 +89,6 @@ export default async function Page() {
         image={hero.image}
         // stats={stats}
       />
-
-      {/* ===== Our story ===== */}
-      <section className="section-pad">
-        <div className="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="order-2 lg:order-1">
-            <h2 className="display-md text-3xl text-ink">
-              A nonprofit that treats every donation as a trust
-            </h2>
-            <p className="mt-6 text-base leading-8 text-body md:text-lg md:leading-9">
-              We work every day to serve people who are often forgotten —
-              helping them access education and skills, standing beside
-              families during disasters, and creating pathways to
-              self-reliance.
-            </p>
-            <p className="mt-5 text-base leading-8 text-body md:text-lg md:leading-9">
-              We are non-political and non-religious. Our only commitment is to
-              people in need, whoever they are and wherever they come from. Rooted
-              in Bangladesh, we are proud to be trusted by supporters at home and
-              in communities around the world.
-            </p>
-            <Button href="/activities" variant="ghost" size="lg" className="mt-9">
-              See what we do
-              <IoArrowForward className="h-4 w-4" />
-            </Button>
-          </Reveal>
-          <Image
-            src={img.programs.classrooms}
-            width={800}
-            height={1000}
-            alt="Children learning in a classroom"
-            className="order-1 object-cover aspect-4/5 w-full lg:order-2"
-            // sizes="(max-width: 1024px) 100vw, 45vw"
-          />
-        </div>
-      </section>
 
       {/* ===== What we stand for — values cards ===== */}
       <section className="bg-surface">
@@ -150,6 +115,45 @@ export default async function Page() {
           </div>
         </div>
       </section>
+
+      {/* ===== Certificates marquee ===== */}
+      {certificates.length > 0 && (
+        <section className="relative overflow-hidden bg-warm py-20">
+          <div className="container-site">
+            <Reveal className="mb-12 md:mb-16">
+              <p className="kicker-dot mb-4">Recognition</p>
+              <h2 className="display-md text-3xl text-ink">
+                Certificates &amp; registration
+              </h2>
+              <p className="mt-5 max-w-xl text-base leading-8 text-muted md:text-lg">
+                Our standing is earned and documented — registered by the NGO
+                Affairs Bureau of Bangladesh and recognised by the bodies that
+                matter.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-2">
+            <Marquee speed={60} gapClass="gap-8" fadeColor="var(--color-cream)">
+              {certificates.map((c, i) => (
+                <figure
+                  key={`cert-${i}`}
+                  className="w-[240px] shrink-0 border border-line bg-paper shadow-soft sm:w-[280px]"
+                >
+                  <div className="aspect-[210/297] w-full p-2 sm:p-3">
+                    <Image
+                      src={c.src}
+                      alt={c.name ?? `Certificate ${i + 1}`}
+                      width={480}
+                      height={680}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </figure>
+              ))}
+            </Marquee>
+          </div>
+        </section>
+      )}
 
       {/* ===== Principles — editorial two-column numbered grid ===== */}
       <section className="bg-warm">

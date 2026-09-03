@@ -14,29 +14,29 @@ import {
 } from "@/components/icons";
 import { activities, activityCount } from "@/data/activities";
 import { funds } from "@/data/funds";
-import { getAllBlogPosts, getGalleryAlbumsData } from "@/lib/content";
+import {
+  getAllBlogPosts,
+  getSiteHomeSlides,
+  getSiteHomeGallery,
+  getSitePartners,
+} from "@/lib/content";
 import { img } from "@/data/images";
 import { dict } from "@/data/dictionary";
 import { site } from "@/data/site";
+import { Marquee } from "@/components/ui/marquee";
 
 export const revalidate = 300;
 
 export default async function Page() {
-  const hero = dict.hero;
   const blogPosts = await getAllBlogPosts();
-  const gallery = await getGalleryAlbumsData();
-  const galleryPhotos = gallery.photos;
+  const galleryPhotos = await getSiteHomeGallery();
+  const heroSlides = await getSiteHomeSlides();
+  const partners = await getSitePartners();
   const featured = activities[0];
   const others = activities.slice(1, 4);
   const counts = [
     { value: String(activityCount), label: "Program areas" },
     { value: "100%", label: "Donations reach programs" },
-  ];
-
-  const heroSlides = [
-    { ...(hero.slides?.[0] ?? { kicker: "", title: "", subtitle: "", cta: "", href: "/donate" }), image: img.hero.children },
-    { ...(hero.slides?.[1] ?? { kicker: "", title: "", subtitle: "", cta: "", href: "/donate" }), image: img.hero.education },
-    { ...(hero.slides?.[2] ?? { kicker: "", title: "", subtitle: "", cta: "", href: "/activities" }), image: img.hero.community },
   ];
 
   const pillars = [
@@ -65,7 +65,7 @@ export default async function Page() {
   return (
     <>
       {/* ===== Hero — full-bleed sliding photo essay ===== */}
-      <HeroSlider slides={heroSlides} />
+      {heroSlides.length > 0 && <HeroSlider slides={heroSlides} />}
 
       {/* ===== Who we are — editorial split with pillars ===== */}
       <section className="bg-surface">
@@ -73,6 +73,9 @@ export default async function Page() {
           <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
             {/* Mission column */}
             <div className="lg:col-span-5">
+              <Reveal>
+                <p className="kicker-dot mb-6">Who we are</p>
+              </Reveal>
               <Reveal>
                 <h2 className="display-lg text-4xl text-ink">
                   We believe{" "}
@@ -139,6 +142,9 @@ export default async function Page() {
         <div className="container-site grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <Reveal>
+              <p className="kicker-dot mb-6">How we work</p>
+            </Reveal>
+            <Reveal>
               <h2 className="display-md text-3xl text-ink">
                 Lasting change comes from working with communities
               </h2>
@@ -150,7 +156,7 @@ export default async function Page() {
               </p>
               <Button
                 href="/about"
-                variant="ghost"
+                // variant=""
                 size="lg"
                 className="mt-9"
               >
@@ -188,6 +194,7 @@ export default async function Page() {
         <div className="container-site section-pad">
           <Reveal className="flex flex-wrap items-end justify-between gap-6">
             <div>
+              <p className="kicker-dot mb-6">What we do</p>
               <h2 className="display-md text-3xl text-ink">Our programs</h2>
             </div>
             <Button href="/activities" variant="ghost">
@@ -197,12 +204,12 @@ export default async function Page() {
           </Reveal>
 
           {/* Featured program — large image + copy */}
-          <Reveal className="mt-12">
+          <Reveal className="mt-10">
             <Link
               href={`/activities/${featured.slug}`}
-              className="group grid gap-8 overflow-hidden bg-surface lg:grid-cols-2 lg:gap-0"
+              className="group grid gap-6 overflow-hidden bg-surface lg:grid-cols-2 lg:gap-0"
             >
-              <div className="img-zoom relative aspect-[16/10] lg:aspect-auto lg:min-h-[26rem]">
+              <div className="img-zoom relative aspect-[16/10] lg:aspect-auto lg:min-h-[20rem]">
                 <Image
                   src={featured.image}
                   alt={featured.title}
@@ -228,7 +235,7 @@ export default async function Page() {
           </Reveal>
 
           {/* Remaining programs — asymmetric staggered */}
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
+          <div className="mt-5 grid gap-5 md:grid-cols-3">
             {others.map((a, i) => (
               <Reveal key={a.slug} delay={(i % 2) * 100}>
                 <Link
@@ -297,11 +304,75 @@ export default async function Page() {
         </div>
       </section>
 
+      {/* ===== Chairman's Message ===== */}
+      <section>
+        <div className="container-site section-pad">
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+            <div className="relative lg:col-span-5">
+              <Reveal>
+                <ImageReveal
+                  src="/images/chairmen.jpeg"
+                  alt="Dr. Nazmul Islam, Chairman of Do Something Foundation"
+                  className="aspect-[3/4] w-full"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+              </Reveal>
+            </div>
+            <div className="lg:col-span-7">
+              <Reveal>
+                <p className="kicker-dot mb-6">Chairman&apos;s Message</p>
+              </Reveal>
+              <Reveal delay={80}>
+                <h2 className="display-lg text-3xl text-ink lg:text-4xl">
+                  Welcome to{" "}
+                  <span className="text-primary">Do Something Foundation</span>
+                </h2>
+              </Reveal>
+              <Reveal delay={140}>
+                <p className="mt-6 max-w-xl text-base leading-8 text-body">
+                  Our mission is simple: to stand beside those who need support
+                  the most. We believe that every individual deserves access to
+                  education, healthcare, safe shelter, clean water, sustainable
+                  livelihoods, and the opportunity to live with dignity.
+                </p>
+              </Reveal>
+              <Reveal delay={180}>
+                <p className="mt-5 max-w-xl text-base leading-8 text-body">
+                  With the generous support of our donors, volunteers, partners,
+                  and well-wishers, we have been able to reach thousands of
+                  vulnerable families across Bangladesh. Every project we
+                  undertake reflects our commitment to compassion, transparency,
+                  accountability, and sustainable community development.
+                </p>
+              </Reveal>
+              <Reveal delay={220}>
+                <p className="mt-5 max-w-xl text-base leading-8 text-body">
+                  Together, we can build a more compassionate, inclusive, and
+                  prosperous Bangladesh.
+                </p>
+              </Reveal>
+              <Reveal delay={260}>
+                <div className="mt-8 border-t border-line pt-6">
+                  <p className="text-sm font-semibold text-ink">
+                    Dr. Nazmul Islam
+                  </p>
+                  <p className="text-sm text-muted">Chairman</p>
+                  <p className="text-sm text-muted">
+                    Do Something Foundation
+                  </p>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== How donations help (funds) — asymmetric ===== */}
       <section className="section-pad">
         <div className="container-site">
           <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>
+              <p className="kicker-dot mb-6">Where your gift goes</p>
               <h2 className="display-md text-3xl text-ink">Where donations go</h2>
             </div>
             <p className="max-w-sm text-sm leading-7 text-muted">
@@ -371,6 +442,9 @@ export default async function Page() {
         <div className="container-site section-pad">
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
+              <Reveal>
+                <p className="kicker-dot mb-6">Global giving</p>
+              </Reveal>
               <Reveal>
                 <h2 className="display-md text-4xl text-ink lg:text-5xl">
                   {dict.international.title}
@@ -447,11 +521,61 @@ export default async function Page() {
         </div>
       </section>
 
+      {/* ===== Partners marquee ===== */}
+      {partners.length > 0 && (
+        <section className="border-y border-line bg-surface py-16">
+          <div className="container-site">
+            <Reveal className="flex flex-wrap items-end justify-between gap-6">
+              <div>
+                <p className="kicker-dot mb-6">Our partners</p>
+                <h2 className="display-md text-3xl text-ink">
+                  Those who work for good will
+                </h2>
+              </div>
+              <p className="max-w-sm text-sm leading-7 text-muted">
+                The people and organisations standing with us to build a better
+                life for every community we serve.
+              </p>
+            </Reveal>
+          </div>
+          <div className="mt-10">
+            <Marquee speed={45} gapClass="gap-5 pr-5" fadeColor="var(--color-surface)">
+              {partners.map((p, i) =>
+                p.src ? (
+                  <figure
+                    key={`partner-${i}`}
+                    className="border size-40 md:size-60 flex items-center justify-center"
+                  >
+                    <Image
+                      src={p.src}
+                      alt={p.name ?? `Partner ${i + 1}`}
+                      width={480}
+                      height={240}
+                      className="max-h-40 w-auto "
+                    />
+                  </figure>
+                ) : (
+                  <div
+                    key={`partner-${i}`}
+                    className="flex h-28 w-56 shrink-0 items-center border border-line bg-white px-6 shadow-soft"
+                  >
+                    <span className="text-balance text-sm font-semibold leading-5 text-ink">
+                      {p.name ?? `Partner ${i + 1}`}
+                    </span>
+                  </div>
+                )
+              )}
+            </Marquee>
+          </div>
+        </section>
+      )}
+
       {/* ===== Gallery — independent editorial mosaic ===== */}
       <section className="bg-surface">
         <div className="container-site section-pad">
           <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>
+              <p className="kicker-dot mb-6">In the field</p>
               <h2 className="display-md text-3xl text-ink">Moments that matter</h2>
             </div>
             <Button href="/gallery" variant="ghost">
@@ -461,11 +585,11 @@ export default async function Page() {
           </Reveal>
 
           <div className="group relative grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-            {galleryPhotos.slice(20, 25).map((photo, i) => {
+            {galleryPhotos.map((photo, i) => {
               const isFeatured = i === 0;
               return (
                 <Link
-                  key={photo.src}
+                  key={photo.src + i}
                   href="/gallery"
                   aria-label={photo.caption}
                   className={`group/item block overflow-hidden ${
@@ -513,6 +637,7 @@ export default async function Page() {
         <div className="container-site section-pad">
           <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
             <div>
+              <p className="kicker-dot mb-6">News &amp; updates</p>
               <h2 className="display-md text-3xl text-ink">From the field</h2>
             </div>
             <Button href="/blog" variant="ghost">
@@ -526,64 +651,16 @@ export default async function Page() {
               <Reveal key={post.slug} delay={i * 90} className="h-full">
                 <ImageCard
                   href={`/blog/${post.slug}`}
-                  image={post.image}
+                  image={post.thumbnail}
                   alt={post.title}
                   kicker={post.category}
                   title={post.title}
-                  excerpt={post.excerpt}
-                  meta={post.date}
+                  excerpt={post.summary}
+                  meta={post.category}
                   ctaLabel="Read more"
                 />
               </Reveal>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Donate CTA — editorial end ===== */}
-      <section className="bg-paper">
-        <div className="container-site section-pad grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="relative order-2 lg:order-1 lg:col-span-6">
-            <Reveal>
-              <div className="img-zoom relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src={img.programs.meals}
-                  alt="A warm meal prepared with care"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
-            </Reveal>
-            <div className="absolute -bottom-5 left-5 bg-paper px-5 py-3 shadow-float ring-1 ring-line">
-              <p className="text-xs font-semibold text-muted">
-                Every donation, accounted for
-              </p>
-            </div>
-          </div>
-
-          <div className="order-1 lg:order-2 lg:col-span-6 lg:pl-4">
-            <Reveal>
-              <h2 className="display-lg text-4xl text-ink">
-                A little generosity goes a long way.
-              </h2>
-            </Reveal>
-            <Reveal delay={100}>
-              <p className="mt-6 max-w-lg text-lg leading-8 text-body">
-                You can give to a specific fund, or support wherever need is
-                greatest. Once you send your donation, we verify it and email
-                you a receipt so your kindness is fully accounted for.
-              </p>
-            </Reveal>
-            <Reveal delay={180} className="mt-9 flex flex-wrap items-center gap-4">
-              <Button href="/donate" size="lg">
-                Donate today
-                <IoArrowForward className="h-5 w-5" />
-              </Button>
-              <Button href="/get-involved" variant="ghost" size="lg">
-                Or get involved another way
-              </Button>
-            </Reveal>
           </div>
         </div>
       </section>

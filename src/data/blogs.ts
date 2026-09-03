@@ -3,32 +3,21 @@ import type { RichBlock } from "@/components/ui/rich-content";
 
 export type BlogPost = {
   slug: string;
-  image: string;
+  thumbnail: string;
   title: string;
-  excerpt: string;
-  date: string;
-  dateISO: string;
+  summary: string;
   category: string;
-  author: string;
-  readTime: string;
-  intro: string;
   blocks: RichBlock[];
 };
 
 export const blogPosts: BlogPost[] = [
   {
     slug: "chittagong-flood-relief-2026",
-    image: img.stories.river,
-    dateISO: "2026-07-22",
-    date: "July 22, 2026",
+    thumbnail: img.stories.river,
     category: "Emergency Relief",
     title: "Standing with flood-affected families in greater Chittagong",
-    excerpt:
+    summary:
       "When severe flooding submerged large areas of the region, our teams moved quickly to reach families who had lost everything — delivering food, clean water and essentials in the first critical days.",
-    author: "The Do Something Foundation Field Desk",
-    readTime: "5 min read",
-    intro:
-      "In the first week of July, severe flooding submerged extensive areas of Chittagong, Cox's Bazar and Bandarban — affecting thousands of families who lost homes, stores and livelihoods in a matter of hours. In the days that followed, our field teams and local volunteers worked to reach the worst-hit communities with what they needed most.",
     blocks: [
       {
         type: "heading",
@@ -83,17 +72,11 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "clean-water-communities",
-    image: img.programs.water,
-    dateISO: "2026-05-14",
-    date: "May 14, 2026",
+    thumbnail: img.programs.water,
     category: "Water",
     title: "Why clean water changes everything for a community",
-    excerpt:
+    summary:
       "For families without a reliable water source, the day is shaped by the search for water. Here's how access to clean water transforms health, time and opportunity.",
-    author: "Programme Team",
-    readTime: "4 min read",
-    intro:
-      "When clean water is close by, children go to school instead of walking for hours to fetch it. Mothers spend less time worrying about illness and more time caring for their families. Fewer preventable illnesses means fewer medical bills and lost workdays. That is why water sits at the heart of our work.",
     blocks: [
       {
         type: "heading",
@@ -150,17 +133,11 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "women-entrepreneurs",
-    image: img.programs.women,
-    dateISO: "2026-03-08",
-    date: "March 8, 2026",
+    thumbnail: img.programs.women,
     category: "Livelihoods",
     title: "Self-reliance through small enterprise",
-    excerpt:
+    summary:
       "A little capital and the right training can transform a family's circumstances. We share how livelihood support is helping women build stable, independent income.",
-    author: "Programme Team",
-    readTime: "4 min read",
-    intro:
-      "Durable change comes from building livelihoods, not just delivering aid. When a person can earn steadily, they can provide for their family with dignity — and plan for a future that is on their own terms. Our livelihood programs support capable people, many of them women, to start small enterprises.",
     blocks: [
       {
         type: "heading",

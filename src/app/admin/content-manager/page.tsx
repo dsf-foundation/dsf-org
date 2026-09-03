@@ -5,6 +5,9 @@ import {
   IoImageOutline,
   IoDocumentTextOutline,
   IoNewspaperOutline,
+  IoHomeOutline,
+  IoRibbonOutline,
+  IoPeopleOutline,
   IoArrowForward,
 } from "react-icons/io5";
 
@@ -23,9 +26,27 @@ const sections = [
   },
   {
     label: "Gallery",
-    description: "Upload and organize photos into albums. Images are stored on Cloudinary.",
+    description: "Create donation batches — groups of photos tied to a program. Images are stored on Cloudinary.",
     href: "/admin/content-manager/gallery",
     icon: IoNewspaperOutline,
+  },
+  {
+    label: "Home Gallery",
+    description: "Curate the photo grid shown in the 'Moments that matter' section on the home page.",
+    href: "/admin/content-manager/home-gallery",
+    icon: IoHomeOutline,
+  },
+  {
+    label: "Certificates",
+    description: "Curate the 'Certificates & registration' marquee on the About page.",
+    href: "/admin/content-manager/certificates",
+    icon: IoRibbonOutline,
+  },
+  {
+    label: "Partners",
+    description: "Curate the 'Those who work for good will' partner marquee on the home page.",
+    href: "/admin/content-manager/partners",
+    icon: IoPeopleOutline,
   },
 ];
 

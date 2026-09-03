@@ -1,23 +1,5 @@
 import { programs } from "@/data/images";
 
-export type GalleryAlbum = { id: string; label: string };
-
-const activityTitles: Record<string, string> = {
-  "education-aid": "Education Aid",
-  schools: "School Support",
-  "emergency-relief": "Emergency Relief",
-  "food-support": "Food Support",
-  "housing-shelter": "Housing & Shelter",
-  "medical-aid": "Medical Aid",
-  "medical-camps": "Medical Camps",
-  "water-sanitation": "Tube Wells & Sanitation",
-  "sewing-machine-support": "Sewing Machine Support",
-  "shop-support": "Shop Support",
-  "van-rickshaw-support": "Van & Rickshaw Support",
-  "wheelchair-support": "Wheelchair Support",
-  "community-programs": "Community & Religious Programs",
-};
-
 const captionPool: Record<string, string[]> = {
   education: ["Students with learning supplies", "In the classroom", "Books and stationery prepared", "Children learning together", "A focused student at work", "Education materials ready", "Reading together", "Classroom scene"],
   schools: ["Students in the classroom", "A busy school day", "Children learning together", "Young learners at work", "School group photo", "Students studying", "Class activity in progress", "School children together", "Learners focused on lessons", "Students sharing a book", "Morning assembly", "Working on a project", "Recess and play", "Reading time", "Classroom discussion", "Students at their desks", "A lesson in progress", "School outing", "Children in the schoolyard", "Teaching and learning", "Students raising hands", "Group activity", "Learning materials", "Classroom preparation", "School day", "Children in uniform", "A student presenting", "Pair work in class", "School community gathering", "Happy learners", "Education in action", "Classroom setting", "Students collaborating", "A school moment", "Lesson time", "Children focused", "School life", "Studying together", "Students in class", "A teaching moment", "Classroom work", "Young students learning", "Children at school", "School community", "A class together", "Students and teacher", "School preparation", "Learning together", "Classroom activity", "Students in the school", "Children in the classroom", "A school scene", "Students working", "Education support", "Classroom time", "School learning", "Children engaged", "A learning space", "Students gathered", "School group", "Children studying", "Students in school", "Classroom work in progress", "A student at desk", "Children in the classroom", "School day activities", "Learners at school", "Students in the lesson", "Classroom discussion", "Children learning", "Students together", "School activities", "A class photo", "Students in the schoolyard", "Children at their desks", "School community life", "Students focused", "Learning together", "Children in uniform", "School assembly", "Students raising hands", "Classroom activity", "A school group", "Children learning together", "Students at school", "Education materials", "Classroom preparation", "School work", "Children in class", "Students learning", "A school moment"],
@@ -69,11 +51,6 @@ const programFolders: Record<string, string[]> = {
   "wheelchair-support": ["wheelchair"],
   "community-programs": ["community"],
 };
-
-export const galleryAlbums: GalleryAlbum[] = [
-  { id: "all", label: "All" },
-  ...programKeys.map((k) => ({ id: k, label: activityTitles[k] })),
-];
 
 export type GalleryPhoto = {
   src: string;

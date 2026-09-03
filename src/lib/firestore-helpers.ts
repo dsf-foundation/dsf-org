@@ -14,14 +14,23 @@ import {
 import type {
   DbBlogPost,
   DbPageHero,
-  GalleryAlbum,
   GalleryBatch,
   RichBlock,
+  HomeSlide,
+  HomeGallery,
+  MarqueeList,
 } from "./firestore";
 
 const HEROES_COL = "heroes";
 const BLOGS_COL = "blogs";
-const GALLERY_COL = "galleryAlbums";
+const HOME_SLIDES_COL = "homeSlides";
+const HOME_SLIDES_DOC = "main";
+const HOME_GALLERY_COL = "homeGallery";
+const HOME_GALLERY_DOC = "main";
+const CERTIFICATES_COL = "certificates";
+const CERTIFICATES_DOC = "main";
+const PARTNERS_COL = "partners";
+const PARTNERS_DOC = "main";
 
 // --- Heroes / Page Banners ---
 
@@ -53,7 +62,7 @@ export async function deleteHero(slug: string): Promise<void> {
 // --- Blogs ---
 
 export async function getBlogs(): Promise<DbBlogPost[]> {
-  const snap = await getDocs(query(collection(db, BLOGS_COL), orderBy("dateISO", "desc")));
+  const snap = await getDocs(query(collection(db, BLOGS_COL), orderBy("updatedAt", "desc")));
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as unknown as DbBlogPost);
 }
 
@@ -72,28 +81,6 @@ export async function setBlog(blog: DbBlogPost): Promise<void> {
 
 export async function deleteBlog(slug: string): Promise<void> {
   await deleteDoc(doc(db, BLOGS_COL, slug));
-}
-
-// --- Gallery ---
-
-export async function getGalleryAlbums(): Promise<GalleryAlbum[]> {
-  const snap = await getDocs(query(collection(db, GALLERY_COL), orderBy("label")));
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as GalleryAlbum));
-}
-
-export async function getGalleryAlbum(
-  id: string
-): Promise<GalleryAlbum | null> {
-  const snap = await getDoc(doc(db, GALLERY_COL, id));
-  return snap.exists() ? ({ id: snap.id, ...snap.data() } as GalleryAlbum) : null;
-}
-
-export async function setGalleryAlbum(album: GalleryAlbum): Promise<void> {
-  await setDoc(doc(db, GALLERY_COL, album.id), album);
-}
-
-export async function deleteGalleryAlbum(id: string): Promise<void> {
-  await deleteDoc(doc(db, GALLERY_COL, id));
 }
 
 // --- Gallery Batches ---
@@ -137,4 +124,62 @@ export async function setGalleryBatch(batch: GalleryBatch): Promise<void> {
 
 export async function deleteGalleryBatch(id: string): Promise<void> {
   await deleteDoc(doc(db, BATCHES_COL, id));
+}
+
+// --- Home Hero Slides ---
+
+export async function getHomeSlides(): Promise<HomeSlide[]> {
+  const snap = await getDoc(doc(db, HOME_SLIDES_COL, HOME_SLIDES_DOC));
+  if (!snap.exists()) return [];
+  const data = snap.data() as { slides?: HomeSlide[] };
+  return data.slides ?? [];
+}
+
+export async function setHomeSlides(slides: HomeSlide[]): Promise<void> {
+  await setDoc(doc(db, HOME_SLIDES_COL, HOME_SLIDES_DOC), {
+    slides,
+    updatedAt: new Date().toISOString(),
+  });
+}
+
+// --- Home Gallery ---
+
+export async function getHomeGallery(): Promise<HomeGallery | null> {
+  const snap = await getDoc(doc(db, HOME_GALLERY_COL, HOME_GALLERY_DOC));
+  return snap.exists() ? (snap.data() as HomeGallery) : null;
+}
+
+export async function setHomeGallery(gallery: HomeGallery): Promise<void> {
+  await setDoc(doc(db, HOME_GALLERY_COL, HOME_GALLERY_DOC), {
+    ...gallery,
+    updatedAt: new Date().toISOString(),
+  });
+}
+
+// --- Certificates marquee ---
+
+export async function getCertificates(): Promise<MarqueeList | null> {
+  const snap = await getDoc(doc(db, CERTIFICATES_COL, CERTIFICATES_DOC));
+  return snap.exists() ? (snap.data() as MarqueeList) : null;
+}
+
+export async function setCertificates(list: MarqueeList): Promise<void> {
+  await setDoc(doc(db, CERTIFICATES_COL, CERTIFICATES_DOC), {
+    items: list.items,
+    updatedAt: new Date().toISOString(),
+  });
+}
+
+// --- Partners marquee ---
+
+export async function getPartners(): Promise<MarqueeList | null> {
+  const snap = await getDoc(doc(db, PARTNERS_COL, PARTNERS_DOC));
+  return snap.exists() ? (snap.data() as MarqueeList) : null;
+}
+
+export async function setPartners(list: MarqueeList): Promise<void> {
+  await setDoc(doc(db, PARTNERS_COL, PARTNERS_DOC), {
+    items: list.items,
+    updatedAt: new Date().toISOString(),
+  });
 }

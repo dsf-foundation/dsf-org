@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   FacebookIcon,
   WhatsappIcon,
-  YoutubeIcon,
   ArrowRightIcon,
 } from "@/components/icons";
 import { Logo } from "@/components/layout/logo";
@@ -54,9 +53,6 @@ export function Footer() {
             <div className="mt-6 flex items-center gap-3">
               <Social href={site.socials.facebook} label="Facebook">
                 <FacebookIcon className="h-4 w-4" />
-              </Social>
-              <Social href={site.socials.youtube} label="YouTube">
-                <YoutubeIcon className="h-4 w-4" />
               </Social>
               <Social href={site.socials.whatsapp} label="WhatsApp">
                 <WhatsappIcon className="h-4 w-4" />

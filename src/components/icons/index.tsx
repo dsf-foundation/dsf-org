@@ -6,7 +6,6 @@ import {
 } from "react-icons/io5";
 import {
   FaFacebookF,
-  FaYoutube,
   FaWhatsapp,
 } from "react-icons/fa6";
 import {
@@ -28,7 +27,6 @@ export const ArrowRightIcon = IoArrowForward;
 export const PlayIcon = IoPlay;
 export const MegaphoneIcon = IoMegaphone;
 export const FacebookIcon = FaFacebookF;
-export const YoutubeIcon = FaYoutube;
 export const WhatsappIcon = FaWhatsapp;
 
 // Decorative divider used in the newsletter band.

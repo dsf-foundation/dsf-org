@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Do Something Foundation",
   },
   description:
-    "Do Something Foundation is an international, non-religious, government-registered nonprofit working for education, food, shelter, healthcare and livelihoods — helping vulnerable families build a more hopeful life. Registration Number: S-13111/2019.",
+    "Do Something Foundation is an international, non-religious, government-registered nonprofit working for education, food, shelter, healthcare and livelihoods — helping vulnerable families build a more hopeful life. Registration Number: NGO Affairs Bureau-3583.",
   keywords: [
     "Do Something Foundation",
     "humanitarian organization",

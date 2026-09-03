@@ -16,12 +16,27 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    match /galleryAlbums/{document} {
+    match /galleryBatches/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    match /galleryBatches/{document} {
+    match /homeSlides/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /homeGallery/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /certificates/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /partners/{document} {
       allow read: if true;
       allow write: if isAdmin();
     }

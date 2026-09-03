@@ -19,7 +19,7 @@ export default function Page() {
     ? blogPosts.filter(
         (p) =>
           p.title.toLowerCase().includes(q) ||
-          p.excerpt.toLowerCase().includes(q)
+          p.summary.toLowerCase().includes(q)
       )
     : blogPosts;
 
@@ -67,7 +67,7 @@ export default function Page() {
                   className="group relative block min-h-[420px] overflow-hidden md:min-h-[480px]"
                 >
                   <Image
-                    src={featured.image}
+                    src={featured.thumbnail}
                     alt={featured.title}
                     fill
                     priority
@@ -84,7 +84,7 @@ export default function Page() {
                       {featured.title}
                     </h2>
                     <p className="mt-3 max-w-xl text-sm leading-6 text-white/80 md:text-base">
-                      {featured.excerpt}
+                      {featured.summary}
                     </p>
                     <span className="mt-6 inline-flex items-center gap-2 bg-primary px-5 py-2.5 text-sm font-semibold text-white transition group-hover:bg-accent group-hover:text-ink">
                       Read story
@@ -101,12 +101,12 @@ export default function Page() {
                   <Reveal key={post.slug} delay={(i % 3) * 80} className="h-full">
                     <ImageCard
                       href={`/blog/${post.slug}`}
-                      image={post.image}
+                      image={post.thumbnail}
                       alt={post.title}
                       kicker={post.category}
                       title={post.title}
-                      excerpt={post.excerpt}
-                      meta={post.date}
+                      excerpt={post.summary}
+                      meta={post.category}
                       ctaLabel="Read story"
                     />
                   </Reveal>

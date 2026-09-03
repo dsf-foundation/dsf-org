@@ -17,9 +17,10 @@ export type RichBlock =
   | { type: "callout"; title?: string; text: string };
 
 export function RichContent({ blocks }: { blocks: RichBlock[] }) {
+  const visible = blocks.filter((b) => b.type !== "callout");
   return (
     <div className="space-y-7">
-      {blocks.map((block, i) => (
+      {visible.map((block, i) => (
         <Reveal key={i} delay={(i % 3) * 60}>
           <BlockRenderer block={block} />
         </Reveal>
@@ -72,20 +73,18 @@ function BlockRenderer({ block }: { block: RichBlock }) {
 
     case "quote":
       return (
-        <figure className="border-l-[3px] border-accent bg-cream px-6 py-6 md:px-8">
-          <blockquote className="pullquote text-xl text-ink md:text-2xl">
-            {block.text}
-          </blockquote>
+        <blockquote className="pullquote border-l-[3px] border-accent pl-5 text-lg text-ink md:text-xl">
+          {block.text}
           {block.cite && (
-            <figcaption className="mt-3 text-sm font-bold text-primary">
+            <cite className="mt-3 block text-sm font-bold text-primary not-italic">
               — {block.cite}
-            </figcaption>
+            </cite>
           )}
-        </figure>
+        </blockquote>
       );
 
     case "image":
-      return (
+      return block.src ? (
         <figure>
           <div className="img-zoom relative aspect-[16/9] overflow-hidden">
             <Image
@@ -103,19 +102,10 @@ function BlockRenderer({ block }: { block: RichBlock }) {
             </figcaption>
           )}
         </figure>
-      );
+      ) : null;
 
     case "callout":
-      return (
-        <div className="border border-primary/20 bg-primary-soft p-6 md:p-8">
-          {block.title && (
-            <p className="mb-2 text-sm font-bold text-primary">
-              {block.title}
-            </p>
-          )}
-          <p className="text-base leading-8 text-ink md:text-lg">{block.text}</p>
-        </div>
-      );
+      return null;
 
     default:
       return null;

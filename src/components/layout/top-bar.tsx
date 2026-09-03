@@ -1,6 +1,5 @@
 import {
   FacebookIcon,
-  YoutubeIcon,
   WhatsappIcon,
 } from "@/components/icons";
 import { MapPinIcon, PhoneIcon } from "@/components/icons/ui";
@@ -32,9 +31,6 @@ export function TopBar() {
           <TopBarSocial href={site.socials.facebook} label="Facebook">
             <FacebookIcon className="h-4 w-4" />
           </TopBarSocial>
-          <TopBarSocial href={site.socials.youtube} label="YouTube">
-            <YoutubeIcon className="h-4 w-4" />
-          </TopBarSocial>
           <TopBarSocial href={site.socials.whatsapp} label="WhatsApp">
             <WhatsappIcon className="h-4 w-4" />
           </TopBarSocial>
@@ -59,7 +55,7 @@ function TopBarSocial({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-8 w-8 items-center justify-center rounded-full text-white/85 transition hover:bg-white/15 hover:text-white"
+      className="flex h-8 w-8 items-center justify-center rounded-full  transition bg-white/15 text-white"
     >
       {children}
     </a>

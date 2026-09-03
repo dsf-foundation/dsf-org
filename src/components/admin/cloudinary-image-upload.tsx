@@ -98,8 +98,8 @@ export function CloudinaryImageUpload({
           disabled={uploading}
           title={uploading ? `${uploadingLabel} ${progress}%` : "Upload image"}
           aria-label={uploading ? `${uploadingLabel} ${progress}%` : "Upload image"}
-          className={`flex h-8 w-8 items-center justify-center text-sm transition disabled:opacity-30 ${
-            uploading ? "bg-white/10 text-white" : "text-white/40 hover:text-white/70"
+          className={`flex h-8 w-8 items-center justify-center rounded text-sm transition disabled:opacity-30 ${
+            uploading ? "bg-primary text-white" : "text-gray-500 hover:bg-gray-200 hover:text-gray-800"
           }`}
         >
           {uploading ? (

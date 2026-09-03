@@ -102,6 +102,7 @@ function ImageCard({
   excerpt,
   ctaLabel,
   className,
+  kicker,
 }: {
   href: string
   image: string
@@ -131,6 +132,11 @@ function ImageCard({
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
+        {kicker && (
+          <span className="text-[0.7rem] font-bold uppercase tracking-widest text-primary">
+            {kicker}
+          </span>
+        )}
         <h3 className="text-base font-semibold leading-snug text-ink line-clamp-2 group-hover:text-primary">
           {title}
         </h3>

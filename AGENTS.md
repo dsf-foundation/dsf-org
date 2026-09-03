@@ -16,6 +16,7 @@ Humanitarian nonprofit website. Next.js 16 App Router + React 19 + Tailwind v4, 
 
 - pnpm only (pinned via `packageManager`). `pnpm dev`, `pnpm build`, `pnpm lint` (ESLint 9 flat config; bare `eslint`).
 - No test suite. Verify changes with `pnpm lint` then `pnpm build` (build also type-checks).
+- `pnpm seed` populates Firestore (`heroes`, `blogs`, `galleryBatches`, `homeSlides`, `homeGallery`) from static data via `scripts/seed.ts`. Uses `service-account.json` (gitignored). `pnpm seed:dry` previews without writing.
 
 ## Next.js 16 differences
 
@@ -28,7 +29,7 @@ Humanitarian nonprofit website. Next.js 16 App Router + React 19 + Tailwind v4, 
 - Routes live under `src/app/(site)/` (a route group, not a locale segment). No `[lang]` prefix.
 - All pages: `/`, `/about`, `/activities`, `/blog`, `/gallery`, `/contact`, `/donate`, `/get-involved`.
 - Dynamic routes: `/activities/[slug]`, `/activities/schools/[branch]`, `/blog/[slug]`, `/gallery/[batchId]`.
-- Admin CMS: `src/app/admin/content-manager/` (Firebase Auth gated).
+- Admin CMS: `src/app/admin/content-manager/` (Firebase Auth gated) — sub-pages: `blogs/`, `banners/`, `gallery/`.
 - API: `src/app/api/cloudinary/` (signed upload/delete).
 - Adding/removing a route requires updating the hardcoded path list in `src/app/sitemap.ts`.
 - Dynamic routes must export `generateStaticParams` derived from their data file so everything prerenders.
@@ -36,7 +37,7 @@ Humanitarian nonprofit website. Next.js 16 App Router + React 19 + Tailwind v4, 
 ## Content & data
 
 - Site content is code in `src/data/*.ts` (activities, blogs, funds, accounts, gallery, images, site), not a CMS.
-- Firestore collections (`heroes`, `blogs`, `galleryAlbums`, `galleryBatches`) overlay static data — `src/lib/content.ts` tries Firestore first, falls back to static files.
+- Firestore is the source of truth for CMS collections (`heroes`, `blogs`, `galleryBatches`, `homeSlides`, `homeGallery`). `src/lib/content.ts` reads Firestore only — no static fallback. Seed/populate via `pnpm seed` (data sources in `scripts/seed.ts`).
 - All UI strings live in `src/data/dictionary.ts`. The `t()` function in `src/lib/locales.ts` is currently a pass-through (identity function) — locales are scaffolded but not wired into routing.
 - Bangla numerals via `bnNum()` in `src/lib/format.ts`.
 
@@ -44,7 +45,7 @@ Humanitarian nonprofit website. Next.js 16 App Router + React 19 + Tailwind v4, 
 
 - Tailwind v4 CSS-first: colors, fonts, shadows, and the custom `xs` breakpoint are declared in `@theme` inside `src/app/globals.css`. There is no `tailwind.config` file.
 - Page width wrapper is the custom `.container-site` class, not Tailwind's `container`.
-- Fonts: body is DM Sans (`--font-dmsans`) with Geist as the base (`--font-sans`). English display headings use Sora (`--font-display`). All loaded in root `src/app/layout.tsx`. No Bangla font is currently loaded.
+- Fonts: body is DM Sans (`--font-dmsans`) as primary. English display headings use Sora (`--font-display`). Geist is loaded as `--font-sans` but overridden by `@theme`. `--font-bornomala` is referenced in CSS for Bangla fallback but **not loaded** — add a Bangla font to `layout.tsx` before using Bangla text. All fonts loaded in root `src/app/layout.tsx`.
 
 ## Design system
 
@@ -67,3 +68,4 @@ Humanitarian nonprofit website. Next.js 16 App Router + React 19 + Tailwind v4, 
 - Deployed on Vercel. Cloudinary for images (cloud: `thy4ada6`).
 - Firebase: Firestore for CMS content, Firebase Auth for admin access only. Admin guard checks email against hardcoded value in `src/lib/admin-guard.ts`.
 - Firestore rules in `firestore.rules` — read is public, write requires admin auth.
+- Seeding uses `firebase-admin` + `scripts/seed.ts` — requires `service-account.json` at project root (gitignored) from Firebase console → Project Settings → Service accounts.
