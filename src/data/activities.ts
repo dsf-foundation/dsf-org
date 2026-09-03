@@ -52,7 +52,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.education[2],
+        src: programs.education[1],
         alt: "A student with learning supplies",
         caption: "The difference between dropping out and staying in class often comes down to the simplest things.",
       },
@@ -189,7 +189,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.relief[4],
+        src: programs.relief[3],
         alt: "Delivering relief to affected families",
         caption: "Our volunteers wade through floodwaters to reach families who cannot reach us.",
       },
@@ -319,13 +319,13 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.housing[4],
+        src: programs.housing[3],
         alt: "A rebuilt family home",
         caption: "A simple, sturdy home that lets a family live with dignity again.",
       },
       {
         type: "image",
-        src: programs.housing[7],
+        src: programs.housing[4],
         alt: "Community working on housing together",
         caption: "When we build with the community, they take ownership of the result.",
       },
@@ -384,13 +384,13 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.healthcare[2],
+        src: programs.healthcare[1],
         alt: "Providing medical care to a community member",
         caption: "Essential treatment and medicines for those who need them most.",
       },
       {
         type: "image",
-        src: programs.healthcare[4],
+        src: programs.healthcare[3],
         alt: "Receiving healthcare support",
         caption: "Access to care at the exact moment it can make the difference.",
       },
@@ -455,13 +455,13 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.medicalCamp[3],
+        src: programs.medicalCamp[2],
         alt: "Volunteer doctors attending patients",
         caption: "Compassionate doctors giving their time so others can access care.",
       },
       {
         type: "image",
-        src: programs.medicalCamp[6],
+        src: programs.medicalCamp[3],
         alt: "Patients receiving care and medicines",
         caption: "Medicines and advice handed out freely to those in need.",
       },
@@ -526,7 +526,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.water[3],
+        src: programs.water[2],
         alt: "Installing water and sanitation infrastructure",
         caption: "Built to last, with quality materials tested for safety.",
       },
@@ -591,7 +591,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.sewing[3],
+        src: programs.sewing[2],
         alt: "Sewing work in progress",
         caption: "Skills that turn a machine into a livelihood.",
       },
@@ -656,7 +656,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.shop[3],
+        src: programs.shop[2],
         alt: "Goods for a family shop",
         caption: "Helping families stock and grow a small business.",
       },
@@ -721,7 +721,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.vanRickshaw[3],
+        src: programs.vanRickshaw[2],
         alt: "A rickshaw ready for work",
         caption: "Earning power placed in the hands of those who work hardest.",
       },
@@ -786,7 +786,7 @@ export const activitiesRaw: Activity[] = [
       },
       {
         type: "image",
-        src: programs.wheelchair[3],
+        src: programs.wheelchair[2],
         alt: "Supporting a person with a new wheelchair",
         caption: "A wheelchair that lets someone live with dignity and freedom.",
       },

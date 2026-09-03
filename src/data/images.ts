@@ -1,23 +1,22 @@
-function prog(folder: string, count: number): string[] {
-  return Array.from(
-    { length: count },
-    (_, i) => `/images/programs/${folder}/img-${String(i + 1).padStart(2, "0")}.jpg`
+function prog(folder: string, indices: number[]): string[] {
+  return indices.map(
+    (i) => `/images/programs/${folder}/img-${String(i).padStart(2, "0")}.jpg`
   );
 }
 
-const education = prog("education", 5);
-const schools = prog("schools", 43);
-const relief = prog("relief", 20);
-const food = prog("food", 2);
-const housing = prog("housing", 23);
-const healthcare = prog("healthcare", 16);
-const medicalCamp = prog("medical-camp", 24);
-const community = prog("community", 14);
-const shop = prog("shop", 9);
-const sewing = prog("sewing", 7);
-const water = prog("water", 28);
-const vanRickshaw = prog("van-rickshaw", 13);
-const wheelchair = prog("wheelchair", 9);
+const education = prog("education", [1, 3]);
+const schools = prog("schools", [1, 2, 3, 4, 5, 6]);
+const relief = prog("relief", [1, 2, 3, 5]);
+const food = prog("food", [1, 2]);
+const housing = prog("housing", [1, 2, 3, 5, 8]);
+const healthcare = prog("healthcare", [1, 3, 4, 5]);
+const medicalCamp = prog("medical-camp", [1, 2, 4, 7]);
+const community = prog("community", [1, 2, 3, 4, 7]);
+const shop = prog("shop", [1, 2, 4]);
+const sewing = prog("sewing", [1, 2, 4]);
+const water = prog("water", [1, 2, 4]);
+const vanRickshaw = prog("van-rickshaw", [1, 2, 4]);
+const wheelchair = prog("wheelchair", [1, 2, 4]);
 
 export const programs = {
   education,
@@ -57,7 +56,7 @@ export const hero = {
 export const story = {
   team: community[1],
   field: relief[2],
-  hands: healthcare[3],
+  hands: healthcare[2],
   life: community[2],
 };
 
@@ -79,7 +78,7 @@ export const img = {
     housing: hero.housing,
     shelter: housing[2],
     healthcare: hero.healthcare,
-    doctor: healthcare[2],
+    doctor: healthcare[1],
     livelihoods: hero.shop,
     farming: hero.water,
     women: hero.sewing,
